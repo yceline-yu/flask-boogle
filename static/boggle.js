@@ -28,3 +28,4 @@ function displayBoard(board) {
 
 
 start();
+
