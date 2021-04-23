@@ -19,11 +19,11 @@ def homepage():
 
 @app.route("/api/new-game")
 def new_game():
-    """Start a new game and return JSON: {game_id, board}."""
+    """Start a new game and return JSON: {gameId, board}."""
 
     # get a unique id for the board we're creating
     game_id = str(uuid4())
     game = BoggleGame()
     games[game_id] = game
 
-    return {"gameId": "need-real-id", "board": "need-real-board"}
+    return jsonify({"gameId": game_id, "board": game.board})
