@@ -31,23 +31,13 @@ def new_game():
 @app.route("/api/score-word", methods=["POST"])
 def check_word_is_legal():
     """check if word recieved from POST request is legal"""
-    #breakpoint()
-    print("request.form = ", request.form)
     json_as_dict = request.get_json()
-    word = json_as_dict["word"]
+    word = json_as_dict["word"].upper()
     game_id = json_as_dict["gameId"]
     print("game_id= ", game_id)
     print("word= ", word)
-    #print("request.get_json is ", request.get_json)
-    # got_json = request.get_json(force = True) #string still?
-    # new_json = json.dumps(got_json)
-    # game_id = new_json["gameId"]
-    #need game_id from JSON and use that to index into the games dictionary
-    #for the game instance
-    #breakpoint()
     in_list = games[game_id].is_word_in_word_list(word)
     on_board = games[game_id].check_word_on_board(word)
-    #result = "hi"
     if not in_list:
         result = "not-word"
     if not on_board:

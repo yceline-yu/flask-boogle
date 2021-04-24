@@ -44,3 +44,27 @@ class BoggleAppTestCase(TestCase):
             self.assertEqual(type(parsed_json["board"][0]), list)
 
             # write a test for this route
+
+    def test_api_score_word(self):
+        """Test scoring a word"""
+
+        with self.client as client:
+            response = client.get('/api/new-game')
+            response_json = response.get_json()
+            game_id = response_json["gameId"]
+            game = games[game_id]
+            game.board[0] = ["A", "A","A","A","A"]
+            game.board[1] = ["D", "O","G","A","A"]
+            game.board[2] = ["A", "A","A","A","A"]
+            game.board[3] = ["A", "A","A","A","A"]
+            game.board[4] = ["A", "A","A","A","A"]
+
+            response = client.post('/api/score-word', json={"gameId":game_id, "word": "AAAA"})
+            self.assertEqual(response.get_json(), {"result":"not-word"})
+            response = client.post('/api/score-word', json={"gameId":game_id, "word": "dog"})
+            self.assertEqual(response.get_json(), {"result": "ok"})
+            response = client.post('/api/score-word', json={"gameId":game_id, "word": "CAT"})
+            self.assertEqual(response.get_json(), {"result":"not-on-board"})
+
+                    #inside of the games dictionary, there is a instance of BoggleGame with a board and a game_id
+                    # we can manualy change the board to include a word and test for test for that word.
